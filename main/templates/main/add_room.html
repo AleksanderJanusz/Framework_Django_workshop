@@ -10,33 +10,83 @@
         input {
             display: block;
         }
+        .main{
+            display: flex;
+            justify-content: center;
+            margin: 0px 40% 0px 40%;
+            padding: 30px 0px 20px 0px;
+            background-color: darkgrey;
+            color: white;
+        }
+        .first{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            background-color: darkgrey;
+        }
+        .my_href{
+            text-decoration: none;
+            color: White;
+            text-align: center;
+        }
+        .second{
+            background-color: darkgrey;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            padding: 15px 200px 15px 200px;
+        }
+        .second2{
+            background-color: darkgrey;
+            border: 1px solid lightgray;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
 
+<div class="first">
+    <div class="second">
+        <a href="{% url 'main' %}" class="my_href">Home</a>
+    </div>
+</div>
+
+<div class="main">
 <form method="post">
 
     <label>
-        Name: <br/>
-        <input type="text" name="name" value="Name">
+        <h4>
+            Name:
+            <input type="text" name="name" value="Name">
+        </h4>
     </label>
 
     <label>
-        Room capacity: <br/>
-        <input type="number" min="0" step="1" name="capacity" value="15">
+        <h4>
+            Room capacity:
+            <input type="number" min="0" step="1" name="capacity" value="15">
+        </h4>
     </label>
 
     <label>
-        Projector available
-        <input type="checkbox" name="projector">
+        <h4>Projector available <input type="checkbox" name="projector"></h4>
     </label>
 
     <label>
-        <input type="submit" value="ADD">
+        <input type="submit" value="ADD" class="second2">
     </label>
 
     {% csrf_token %}
 </form>
+</div>
 
 </body>
 </html>

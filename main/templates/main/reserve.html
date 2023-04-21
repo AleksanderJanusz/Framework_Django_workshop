@@ -7,23 +7,77 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Reserve</title>
     <style>
-        input, textarea{
-            display: block;
-            margin-bottom: 10px;
+        table,td {
+            border: 1px solid darkgrey;
+            background-color: lightgray;
         }
-        table,td {border: 1px solid black}
-        button {
-            margin-right: 10px;
-            margin-bottom: 10px
+        button { margin-right: 10px; margin-bottom: 10px}
+        input {
+            display: block;
+        }
+        .main{
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 0px 30% 0px 30%;
+            padding: 30px 0px 20px 0px;
+            background-color: lightgray;
+            color: white;
+        }
+        .first{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            background-color: darkgrey;
+        }
+        .my_href{
+            text-decoration: none;
+            color: White;
+            text-align: center;
+        }
+        .second{
+            background-color: darkgrey;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            padding: 15px 200px 15px 200px;
+        }
+        .second2{
+            background-color: darkgrey;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+        }
+        .no_room{
+            display: flex;
+            justify-content: center;
+            background-color: darkgrey;
+            color: white; padding: 20px;
+            margin: 0px 30% 20px 30%
         }
     </style>
 </head>
 <body>
 
+<div class="first">
+    <div class="second">
+        <a href="{% url 'main' %}" class="my_href">Home</a>
+    </div>
+</div>
+
+<div class="main">
 <form method="post">
-
+    <div style="width: 100%; text-align: center; background-color: darkgrey; padding-left: 10px; padding-right: 10px">
         <h2>Room: {{ room.name }}</h2>
-
+    </div>
+    <div style="width: 100%; margin-top: -30px;margin-bottom: 0px; padding-left: 20px; background-color: darkgrey">
     <label>
         Date: <br/>
         <input type="date" name="date">
@@ -33,19 +87,21 @@
         Add comment: <br/>
         <textarea name="comment" rows="4" cols="50"></textarea>
     </label>
-
+    </div>
+    <div style="width: 100%; background-color: darkgrey; padding-right: 20px;padding-bottom: 10px; display: flex; justify-content: center">
     <label>
-        <input type="submit" value="Reserve">
+        <input type="submit" value="Reserve" class="second2" style="border: 1px solid lightgray">
     </label>
-
+    </div>
     {% csrf_token %}
-</form>
 
+</form>
+</div>
     {% if reservations %}
-    <table>
+    <table style="display: flex; justify-content: center">
         <tr>
-            <th style="border-right: 1px solid black">Date</th>
-            <th style="border-left: 1px solid black">Comment</th>
+            <th style="background-color: darkgrey; color: white">Date</th>
+            <th style="background-color: darkgrey; color: white">Comment</th>
         </tr>
         {% for reserv in reservations %}
         <tr>
@@ -58,7 +114,7 @@
         </tr>
         {% endfor %}
     </table>
-    {% else %} <h3>Room has no reservations</h3>
+    {% else %} <h3 class="no_room">Room has no reservations</h3>
     {% endif %}
 
 </body>

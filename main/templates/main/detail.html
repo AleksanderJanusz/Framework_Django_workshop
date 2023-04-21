@@ -7,37 +7,100 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Room detail</title>
     <style>
-        table,td {border: 1px solid black}
+        table,td {
+            border: 1px solid darkgrey;
+            background-color: lightgray;
+        }
         button { margin-right: 10px; margin-bottom: 10px}
+        input {
+            display: block;
+        }
+        .main{
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 0px 30% 0px 30%;
+            padding: 30px 0px 20px 0px;
+            background-color: lightgray;
+            color: white;
+        }
+        .first{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            background-color: darkgrey;
+        }
+        .my_href{
+            text-decoration: none;
+            color: White;
+            text-align: center;
+        }
+        .second{
+            background-color: darkgrey;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            padding: 15px 200px 15px 200px;
+        }
+        .second2{
+            background-color: darkgrey;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+        }
+        .no_room{
+            display: flex;
+            justify-content: center;
+            background-color: darkgrey;
+            color: white; padding: 20px;
+            margin: 0px 30% 20px 30%
+        }
     </style>
 </head>
 <body>
 
-    <h1>Room: {{ room.name }}</h1>
-    <ul>
+<div class="first">
+    <div class="second">
+        <a href="{% url 'main' %}" class="my_href">Home</a>
+    </div>
+</div>
+<div class="main">
+
+    <div style="width: 100%; text-align: center; background-color: darkgrey">
+        <h1>Room: {{ room.name }}</h1>
+    </div>
+    <ul style="width: 100%; padding-left: 35%; margin-top: -30px;margin-bottom: 0px; background-color: darkgrey">
         <li><h3>Capacity: {{ room.capacity }}</h3></li>
         <li>
             <h3> {{ room.is_projector | yesno:"There is projector here, No projector in this room" }}</h3>
         </li>
     </ul>
-
-        <button type="button" class="button_a">
-            <a href="{% url 'edit_room' room.id %}" style="text-decoration: none; color: black">Edit</a>
+    <div style="width: 100%; background-color: darkgrey; display: flex; justify-content: center">
+        <button type="button" class="second2">
+            <a href="{% url 'edit_room' room.id %}" class="my_href">Edit</a>
         </button>
 
-        <button type="button">
-            <a href="{% url 'delete_room' room.id %}" style="text-decoration: none; color: black">Delete</a>
+        <button type="button" class="second2">
+            <a href="{% url 'delete_room' room.id %}" class="my_href">Delete</a>
         </button>
 
-        <button type="button">
-            <a href="{% url 'reserve_room' room.id %}" style="text-decoration: none; color: black">Reservation</a>
+        <button type="button" class="second2">
+            <a href="{% url 'reserve_room' room.id %}" class="my_href">Reservation</a>
         </button>
-
+    </div>
+</div>
     {% if reservations %}
-    <table>
+    <table style="display: flex; justify-content: center">
         <tr>
-            <th style="border-right: 1px solid black">Date</th>
-            <th style="border-left: 1px solid black">Comment</th>
+            <th style="background-color: darkgrey; color: white">Date</th>
+            <th style="background-color: darkgrey; color: white">Comment</th>
         </tr>
         {% for reserv in reservations %}
         <tr>
@@ -50,7 +113,7 @@
         </tr>
         {% endfor %}
     </table>
-    {% else %} <h3>Room has no reservations</h3>
+    {% else %} <h3 class="no_room">Room has no reservations</h3>
     {% endif %}
 
 </body>

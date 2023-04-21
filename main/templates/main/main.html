@@ -21,19 +21,123 @@
             display: block;
             margin: 8px;
         }
+        .my_inline{
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+
+        }
+        .first{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            background-color: darkgrey;
+        }
+        .my_href{
+            text-decoration: none;
+            color: White;
+            text-align: center;
+        }
+        .second{
+            background-color: darkgrey;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            padding: 15px 200px 15px 200px;
+        }
+        .second2{
+            background-color: darkgrey;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+        }
+        .eighty{
+            {% if request.method == 'POST'  %}
+                width: 80%;
+            {% endif %}
+            display: flex;
+            justify-content: start;
+            align-items: start;
+            flex-wrap: wrap;
+        }
+        .twenty{
+            width: 20%;
+
+        }
+        .ul_eighty{
+            display: flex;
+            justify-content: start;
+            list-style: none;
+            flex-wrap: wrap;
+            margin-top: 0px;
+
+        }
+        .my_block{
+            border: none;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            min-width: 256px;
+            width: 25%;
+        }
+        .butt_div{
+            display: flex;
+            justify-content: space-around;
+            margin-left: 10%;
+            margin-right: 10%;
+            background-color: lightgray;
+        }
+        .butt_href{
+            border: none;
+            background-color: darkgrey;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+        }
+    .my_form{
+        background-color: darkgrey;
+        border: none;
+        color: white;
+        padding-bottom: 15px;
+        padding-left: 40px;
+    }
     </style>
 
 </head>
 <body>
 
+<div class="first">
+    <div class="second">
+        <a href="{% url 'add_room' %}" class="my_href">Add new room</a>
+    </div>
+    <div class="second2">
+        <form method="post">
+            <input type="submit" class="second" value="Search">
+            {% csrf_token %}
+        </form>
+    </div>
+</div>
+
+<div class="my_inline">
+
 {% if not rooms %}
     No free rooms
 {% endif %}
-
-<ul>
+<div class="eighty">
+<ul class="ul_eighty">
     {% for room in rooms %}
+        <div class="my_block">
         <li>
-            <h2>Room <a href="{% url 'room_details' room.id %}" style="color: #000066">{{ room.name }}</a></h2>
+            <h2>Room <a href="{% url 'room_details' room.id %}" style="color: #000066; text-decoration: none">{{ room.name }}</a></h2>
             <ul>
 
                 <li>
@@ -54,31 +158,30 @@
                 </li>
 
             </ul>
+        <div class="butt_div">
 
-        <button type="button" class="button_a">
-            <a href="{% url 'edit_room' room.id %}" style="text-decoration: none; color: black">Edit</a>
-        </button>
+            <a href="{% url 'edit_room' room.id %}" class="butt_href" style="width: 23%">Edit</a>
 
-        <button type="button">
-            <a href="{% url 'delete_room' room.id %}" style="text-decoration: none; color: black">Delete</a>
-        </button>
+            <a href="{% url 'delete_room' room.id %}" class="butt_href" style="width: 22%">Delete</a>
 
-        <button type="button">
-            <a href="{% url 'reserve_room' room.id %}" style="text-decoration: none; color: black">Reservation</a>
-        </button>
+            <a href="{% url 'reserve_room' room.id %}" class="butt_href" style="width: 52%">Reservation</a>
 
+        </div>
         </li>
+        </div>
     {% endfor %}
+
 </ul>
+</div>
 
-
-<button type="button" style="margin-bottom: 40px">
-    <a href="{% url 'add_room' %}" style="text-decoration: none; color: black">Add new room</a>
-</button>
-
-
-<form method="get" action="{% url 'search' %}">
+{% if request.method == 'POST' %}
+<div class="twenty">
+<form method="get" action="{% url 'search' %}" class="my_form">
     Search, pick method:
+    <label>
+        Date:<br/>
+        <input type="date" name="date">
+    </label>
     <label>
         Name: <input type="checkbox" name="check_name" class="checkbox"><br/>
         <input type="text" name="name" value="Name">
@@ -96,11 +199,14 @@
     </label>
 
 </form>
+</div>
+</div>
+{% endif %}
+
 
 <br/><br/>
 <footer>
-    Autor: <address>Aleksander Janusz</address>
-    <p>wszelkie prawa zastrzeżone</p>
+    By Aleksander Janusz©
 </footer>
 
 </body>

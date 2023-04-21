@@ -5,9 +5,110 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Search</title>
+    <style>
+        li{
+            margin: 8px;
+        }
+        .first{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            background-color: darkgrey;
+        }
+        .my_href{
+            text-decoration: none;
+            color: White;
+            text-align: center;
+        }
+        .second{
+            background-color: darkgrey;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            padding: 15px 200px 15px 200px;
+        }
+        .ul_eighty{
+            width: 60%;
+            display: flex;
+            justify-content: start;
+            list-style: none;
+            flex-wrap: wrap;
+            padding: 0px 0px 0px 10%;
+            margin-top: 0px;
+            margin-left: 20%;
+            margin-right: 20%;
+            background-color: lightgray;
+
+        }
+        .my_block{
+            border: none;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            min-width: 256px;
+            width: 25%;
+        }
+        .eighty{
+            padding: 0px;
+            display: flex;
+            justify-content: start;
+            align-items: start;
+            flex-wrap: wrap;
+        }
+        .butt_href{
+            border: none;
+            background-color: darkgrey;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px;
+            font-size: 16px;
+        }
+
+    </style>
 </head>
 <body>
+
+<div class="first">
+    <div class="second">
+        <a href="{% url 'main' %}" class="my_href">Home</a>
+    </div>
+</div>
+
+    {% if rooms %}
+        <div class="eighty">
+        <ul class="ul_eighty">
+            {% for room in rooms %}
+                <div class="my_block">
+                <li>
+                    <ul>
+                        <h3 style="background-color: darkgrey; color: white;">Room: {{ room.name }}</h3>
+
+                        <li>
+                            Capacity: {{ room.capacity }}
+                        </li>
+
+                        <li>
+                            {{ room.is_projector | yesno:"Room with projector, Room without projector" }}
+                        </li>
+                    </ul>
+
+                    <div style="width: 100%; background-color: lightgray; display: flex; justify-content: end">
+                        <a href="{% url 'reserve_room' room.id %}" class="butt_href" >Reservation</a>
+                    </div>
+                </li>
+                </div>
+            {% endfor %}
+        </ul>
+        </div>
+    {% else %}<h2>No available rooms</h2>
+    {% endif %}
 
 </body>
 </html>

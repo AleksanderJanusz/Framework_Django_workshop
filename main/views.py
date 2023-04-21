@@ -9,7 +9,13 @@ from main.models import Room, Reservation
 # Create your views here.
 class Main(View):
     def get(self, request):
-        rooms = Room.objects.all()
+        rooms = Room.objects.all().order_by('name')
+        reservations = Reservation.objects.filter(date=datetime.now().strftime('%Y-%m-%d'))
+        return render(request, 'main/main.html', {'rooms': rooms,
+                                                  'reservations': reservations})
+
+    def post(self, request):
+        rooms = Room.objects.all().order_by('name')
         reservations = Reservation.objects.filter(date=datetime.now().strftime('%Y-%m-%d'))
         return render(request, 'main/main.html', {'rooms': rooms,
                                                   'reservations': reservations})
@@ -80,8 +86,10 @@ class EditRoom(View, ):
 
 class ReserveRoom(View):
     def get(self, request, room_id):
-        return render(request, 'main/reserve.html', {'room': Room.objects.get(pk=room_id),
-                                                     'reservations': Reservation.objects.filter(room_id=room_id)})
+        return render(request,
+                      'main/reserve.html',
+                      {'room': Room.objects.get(pk=room_id),
+                       'reservations': Reservation.objects.filter(room_id=room_id).order_by('date')})
 
     def post(self, request, room_id):
         date = request.POST.get('date')
@@ -103,10 +111,14 @@ def search(request):
     projector = request.GET.get('projector')
     c_name = request.GET.get('check_name')
     c_capacity = request.GET.get('check_capacity')
+    date = request.GET.get('date')
     rooms = Room.objects.all()
 
-    if not c_name and not c_capacity and not projector:
-        return HttpResponse('You have to tick the field of search')
+    if not date:
+        return HttpResponse('You have to pick date')
+
+    reservation_date = [i.room_id for i in Reservation.objects.filter(date=date)]
+
     if c_name:
         rooms = rooms.filter(name=name)
     if c_capacity:
@@ -114,4 +126,6 @@ def search(request):
     if projector:
         rooms = rooms.filter(is_projector=True)
 
-    return render(request, 'main/search.html', {'rooms':rooms})
+    rooms = rooms.exclude(pk__in=reservation_date)
+
+    return render(request, 'main/search.html', {'rooms': rooms})
