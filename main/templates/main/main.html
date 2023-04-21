@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>WORKSHOP</title>
+    <style>
+        li {
+            margin: 8px;
+        }
+        button {
+            margin-right: 10px;
+        }
+        .checkbox {
+            width: 15px;
+            height: 15px;
+        }
+        label{
+            display: block;
+            margin: 8px;
+        }
+    </style>
+
+</head>
+<body>
+
+{% if not rooms %}
+    No free rooms
+{% endif %}
+
+<ul>
+    {% for room in rooms %}
+        <li>
+            <h2>Room <a href="{% url 'room_details' room.id %}" style="color: #000066">{{ room.name }}</a></h2>
+            <ul>
+
+                <li>
+                    Capacity: {{ room.capacity }}
+                </li>
+
+                <li>
+                    Availability:
+                    {% for reservation in reservations %}
+                        {% if reservation.room_id == room.id %} Reserved
+                        {% else %} Free
+                        {% endif %}
+                    {% endfor %}
+                </li>
+
+                <li>
+                    {{ room.is_projector | yesno:"There is projector in this room, There is no projector here"}}
+                </li>
+
+            </ul>
+
+        <button type="button" class="button_a">
+            <a href="{% url 'edit_room' room.id %}" style="text-decoration: none; color: black">Edit</a>
+        </button>
+
+        <button type="button">
+            <a href="{% url 'delete_room' room.id %}" style="text-decoration: none; color: black">Delete</a>
+        </button>
+
+        <button type="button">
+            <a href="{% url 'reserve_room' room.id %}" style="text-decoration: none; color: black">Reservation</a>
+        </button>
+
+        </li>
+    {% endfor %}
+</ul>
+
+
+<button type="button" style="margin-bottom: 40px">
+    <a href="{% url 'add_room' %}" style="text-decoration: none; color: black">Add new room</a>
+</button>
+
+
+<form method="get" action="{% url 'search' %}">
+    Search, pick method:
+    <label>
+        Name: <input type="checkbox" name="check_name" class="checkbox"><br/>
+        <input type="text" name="name" value="Name">
+    </label>
+    <label>
+        Minimal capacity:<input type="checkbox" name="check_capacity" class="checkbox"> <br/>
+        <input type="number" min="0" step="1" name="capacity" value="0">
+    </label>
+    <label>
+        Projector in room:
+        <input type="checkbox" name="projector" class="checkbox">
+    </label>
+    <label>
+        <input type="submit" value="SEARCH">
+    </label>
+
+</form>
+
+<br/><br/>
+<footer>
+    Autor: <address>Aleksander Janusz</address>
+    <p>wszelkie prawa zastrzeżone</p>
+</footer>
+
+</body>
+</html>

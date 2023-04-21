@@ -16,7 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from main import views as main_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', main_views.Main.as_view(), name="main"),
+    path('room/new/', main_views.AddRoom.as_view(), name="add_room"),
+    path('room/<int:room_id>/', main_views.detail_room, name="room_details"),
+    path('room/delete/<int:room_id>/', main_views.delete_room, name="delete_room"),
+    path('room/modify/<int:room_id>/', main_views.EditRoom.as_view(), name="edit_room"),
+    path('room/reserve/<int:room_id>/', main_views.ReserveRoom.as_view(), name="reserve_room"),
+    path('room/search/', main_views.search, name="search"),
+
 ]

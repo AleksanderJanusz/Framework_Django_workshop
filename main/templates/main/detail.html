@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Room detail</title>
+    <style>
+        table,td {border: 1px solid black}
+        button { margin-right: 10px; margin-bottom: 10px}
+    </style>
+</head>
+<body>
+
+    <h1>Room: {{ room.name }}</h1>
+    <ul>
+        <li><h3>Capacity: {{ room.capacity }}</h3></li>
+        <li>
+            <h3> {{ room.is_projector | yesno:"There is projector here, No projector in this room" }}</h3>
+        </li>
+    </ul>
+
+        <button type="button" class="button_a">
+            <a href="{% url 'edit_room' room.id %}" style="text-decoration: none; color: black">Edit</a>
+        </button>
+
+        <button type="button">
+            <a href="{% url 'delete_room' room.id %}" style="text-decoration: none; color: black">Delete</a>
+        </button>
+
+        <button type="button">
+            <a href="{% url 'reserve_room' room.id %}" style="text-decoration: none; color: black">Reservation</a>
+        </button>
+
+    {% if reservations %}
+    <table>
+        <tr>
+            <th style="border-right: 1px solid black">Date</th>
+            <th style="border-left: 1px solid black">Comment</th>
+        </tr>
+        {% for reserv in reservations %}
+        <tr>
+            <td>
+                {{ reserv.date }}
+            </td>
+            <td>
+                {{ reserv.comment }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %} <h3>Room has no reservations</h3>
+    {% endif %}
+
+</body>
+</html>

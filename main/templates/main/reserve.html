@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Reserve</title>
+    <style>
+        input, textarea{
+            display: block;
+            margin-bottom: 10px;
+        }
+        table,td {border: 1px solid black}
+        button {
+            margin-right: 10px;
+            margin-bottom: 10px
+        }
+    </style>
+</head>
+<body>
+
+<form method="post">
+
+        <h2>Room: {{ room.name }}</h2>
+
+    <label>
+        Date: <br/>
+        <input type="date" name="date">
+    </label>
+
+    <label>
+        Add comment: <br/>
+        <textarea name="comment" rows="4" cols="50"></textarea>
+    </label>
+
+    <label>
+        <input type="submit" value="Reserve">
+    </label>
+
+    {% csrf_token %}
+</form>
+
+    {% if reservations %}
+    <table>
+        <tr>
+            <th style="border-right: 1px solid black">Date</th>
+            <th style="border-left: 1px solid black">Comment</th>
+        </tr>
+        {% for reserv in reservations %}
+        <tr>
+            <td>
+                {{ reserv.date }}
+            </td>
+            <td>
+                {{ reserv.comment }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %} <h3>Room has no reservations</h3>
+    {% endif %}
+
+</body>
+</html>
